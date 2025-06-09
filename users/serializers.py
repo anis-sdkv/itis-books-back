@@ -4,12 +4,11 @@ from rest_framework import serializers
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
-    confirm_password = serializers.CharField(write_only=True, min_length=8)
     username = serializers.CharField(max_length=150)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['id', 'username', 'email', 'password']
 
     def validate(self, data):
         return data
@@ -21,7 +20,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

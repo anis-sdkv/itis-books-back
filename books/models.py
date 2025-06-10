@@ -14,7 +14,6 @@ class Person(models.Model):
     def __str__(self):
         return self.name
 
-
 class Language(models.Model):
     """Модель для языков"""
     code = models.CharField(max_length=4, unique=True)

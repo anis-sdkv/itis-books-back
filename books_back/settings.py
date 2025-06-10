@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'books',
     'users',
+    'usercontent'
 ]
 
 REST_FRAMEWORK = {
@@ -120,7 +121,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-DATABASE_ROUTERS = ['books.db_router.BooksRouter']
+DATABASE_ROUTERS = ['books_back.db_router.DbRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

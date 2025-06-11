@@ -2,8 +2,9 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import LikedBook, Review, Quote
-from .serializers import LikedBookSerializer, ReviewSerializer, QuoteSerializer
+from .models import LikedBook, Review, Quote, Shelf
+from .serializers import LikedBookSerializer, ReviewSerializer, QuoteSerializer, ShelfSerializer
+
 
 class BookUserContent(APIView):
     permission_classes = [permissions.AllowAny]
@@ -69,4 +70,21 @@ class QuoteDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Quote.objects.filter(user=self.request.user)
+
+class ShelfListCreateView(generics.ListCreateAPIView):
+    serializer_class = ShelfSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Shelf.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ShelfDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ShelfSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Shelf.objects.filter(user=self.request.user)
 

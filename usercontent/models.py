@@ -1,5 +1,7 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.conf import settings
+
 
 class LikedBook(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='liked_books')
@@ -9,6 +11,7 @@ class LikedBook(models.Model):
     class Meta:
         unique_together = ('user', 'gutenberg_id')
         ordering = ['-added_at']
+
 
 class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
@@ -20,6 +23,7 @@ class Review(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+
 class Quote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='quotes')
     gutenberg_id = models.IntegerField()
@@ -29,3 +33,11 @@ class Quote(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+class Shelf(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='shelves')
+    name = models.CharField(max_length=255)
+
+class ShelfBook(models.Model):
+    shelf = models.ForeignKey(Shelf, on_delete=models.CASCADE, related_name='shelf_books')
+    gutenberg_id = models.IntegerField()

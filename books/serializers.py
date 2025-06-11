@@ -61,7 +61,6 @@ class BookListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = [
-            'id',
             'gutenberg_id',
             'title',
             'authors',
@@ -83,7 +82,6 @@ class BookDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = [
-            'id',
             'gutenberg_id',
             'title',
             'authors',

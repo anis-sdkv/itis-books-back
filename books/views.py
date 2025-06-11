@@ -1,3 +1,6 @@
+import requests
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters
 from rest_framework.decorators import api_view
@@ -193,3 +196,26 @@ def stats(request):
         'total_authors': total_authors,
         'total_downloads': total_downloads
     })
+
+@api_view(['GET', 'HEAD'])
+def download_epub(request, gutenberg_id):
+    """
+    Скачивание epub-файла по gutenberg_id (если такой формат есть)
+    """
+    # Находим книгу
+    book = get_object_or_404(Book, gutenberg_id=gutenberg_id)
+    # Ищем формат epub
+    epub_format = book.formats.filter(mime_type='application/epub+zip').first()
+    if not epub_format:
+        raise Http404("EPUB формат не найден для этой книги")
+
+    epub_url = epub_format.url
+    # Скачиваем файл
+    response = requests.get(epub_url, stream=True)
+    if response.status_code != 200:
+        raise Http404("Файл по ссылке недоступен")
+
+    # Возвращаем файл как attachment
+    django_response = HttpResponse(response.content, content_type='application/epub+zip')
+    django_response['Content-Disposition'] = f'attachment; filename="{gutenberg_id}.epub"'
+    return django_response

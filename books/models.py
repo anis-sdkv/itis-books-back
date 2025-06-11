@@ -55,8 +55,8 @@ class Bookshelf(models.Model):
 
 class Book(models.Model):
     """Модель для книг"""
+    gutenberg_id = models.IntegerField(primary_key=True, unique=True)
     download_count = models.IntegerField(null=True, blank=True)
-    gutenberg_id = models.IntegerField(unique=True)
     media_type = models.CharField(max_length=16)
     title = models.CharField(max_length=1024, null=True, blank=True)
     copyright = models.BooleanField(null=True, blank=True)

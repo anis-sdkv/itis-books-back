@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'books',
     'users',
-    'usercontent'
+    'usercontent',
+    'recommender',
 ]
 
 REST_FRAMEWORK = {
@@ -140,6 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+ALLOWED_HOSTS = ['*']
+
 
 # Internationalization
 LANGUAGE_CODE = 'ru-ru'
